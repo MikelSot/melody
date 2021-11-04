@@ -1,11 +1,11 @@
 package interfaces
 
 type Creater interface {
-	Create(interface{}) error
+	Create(*interface{}) error
 }
 
 type Updater interface {
-	Update(uint, interface{}) error
+	Update(uint, *interface{}) error
 }
 
 type DeleteSofter interface{

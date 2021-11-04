@@ -2,6 +2,7 @@ package database
 
 import (
 	"github.com/MikelSot/melody/database/connection"
+	"github.com/MikelSot/melody/database/dao"
 	"github.com/MikelSot/melody/database/migration"
 	"github.com/MikelSot/melody/infrastructure"
 )
@@ -11,4 +12,5 @@ func Database()  {
 	connection.NewGetEnvDB().GetEnvDataBase()
 	connection.NewConnection().Connection()
 	migration.Migration()
+	dao.Dao()
 }

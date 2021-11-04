@@ -20,6 +20,7 @@ type User struct {
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty"`
 	Messages    []Message
 }
+type Users []User
 
 type Register struct {
 	Name     string `json:"name,omitempty"`
