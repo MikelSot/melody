@@ -1,2 +1,5 @@
-mod
+go.mod
+go.sum
 .idea/
+README.md
+infrastructure/.env
