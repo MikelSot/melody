@@ -20,8 +20,6 @@ func (i *insertData) InsertData() error {
 		{Type: "texto"},
 		{Type: "documento"},
 		{Type: "imagen"},
-		{Type: "audio"},
-		{Type: "video"},
 	}
 
 	db := i.pl.Pool()

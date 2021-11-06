@@ -20,3 +20,7 @@ func (c chat) DeleteSoft(id uint) error {
 	return nil
 }
 
+func (c chat) Update(id uint, data *interface{}) error {
+	db.Model(id).Updates(&data)
+	return nil
+}

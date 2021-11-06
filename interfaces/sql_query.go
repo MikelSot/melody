@@ -8,6 +8,10 @@ type GetByIder interface{
 	GetById(uint) (interface{}, error)
 }
 
-type Exister interface{
-	Exists(string) (bool, error)
+type EmailFieldExistser interface{
+	EmailFieldExists(string) (bool, error)
+}
+
+type NicknameFieldExistser interface{
+	NicknameFieldExists(string) (bool, uint, error)
 }

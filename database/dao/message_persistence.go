@@ -19,3 +19,14 @@ func (m message) DeleteSoft(id uint) error {
 	db.Delete(&ms)
 	return nil
 }
+
+func (m message) UpdateBoolField(id uint, state bool) error {
+	db.Table("messages").Where("id=?", id).Update("star", state)
+	return nil
+}
+
+// updateFile, not picture
+func (m message) UpdatePictureField(id uint, archive string) error {
+	db.Table("messages").Where("id=?", id).Update("archive", archive)
+	return nil
+}

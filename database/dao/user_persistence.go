@@ -34,8 +34,18 @@ func (u user) DeletePermanent(id uint) error {
 	return nil
 }
 
+func (u user) UpdateNicknameField(id uint, nickname string) error {
+	db.Table("users").Where("id=?", id).Update("nickname", nickname)
+	return nil
+}
 
 
+func (u user) UpdatePictureField(id uint, picture string) error {
+	db.Table("users").Where("id=?", id).Update("picture", picture)
+	return nil
+}
 
-
-
+func (u user) UpdateBoolField(id uint, state bool) error {
+	db.Table("users").Where("id=?", id).Update("online", state)
+	return nil
+}
