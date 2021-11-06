@@ -1,11 +1,14 @@
 package interfaces
 
-import "gorm.io/gorm"
+import (
+	"database/sql"
+	"gorm.io/gorm"
+)
 
 type Pooler interface{
-	Pool() *gorm.DB
+	Pool() *sql.DB
 }
 
 type Connectioner interface{
-	Connection()
+	Connection() *gorm.DB
 }

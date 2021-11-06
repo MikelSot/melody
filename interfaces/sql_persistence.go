@@ -1,5 +1,7 @@
 package interfaces
 
+// las interfaces deben recibir y enviar ppunteros (los que sonpara la base de datos y consultas)
+
 type Creater interface {
 	Create(*interface{}) error
 }

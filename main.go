@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/MikelSot/melody/database"
+	"github.com/MikelSot/melody/database/connection"
+	"github.com/MikelSot/melody/infrastructure"
 )
 
 //type tmGetById interfaces.GetAller
 
 func main() {
-	database.Database()
+	//database.Database()
 	//tmGetById := dao.NewTypeMessage()
 	//var data domain.TypeMessage
 	//data, _:= tmGetById.GetById(2)
@@ -20,4 +21,19 @@ func main() {
 	//
 	//
 	//fmt.Println("DATA ->  %v", us.ID)
+	infrastructure.NewEnv().LoadEnv()
+	connection.NewGetEnvDB().GetEnvDataBase()
+	c := connection.NewConnection()
+	c.Connection()
+	c.Connection()
+	c.Connection()
+	c.Connection()
+	c.Connection()
+	c.Connection()
+	c.Pool()
+	c.Pool()
+	c.Pool()
 }
+
+
+
