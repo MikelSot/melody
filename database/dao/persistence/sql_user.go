@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/MikelSot/melody/domain"
-	"log"
 )
 
 const (
@@ -29,16 +28,10 @@ func (u user) Create(d *domain.CreateUser) error {
 		return err
 	}
 	defer stmt.Close()
-	err = stmt.QueryRow(
-		d.Name,
-		d.LastName,
-		d.Email,
-		d.Password,
-	).Scan(&d.ID)
+	err = stmt.QueryRow(d.Name,d.LastName,d.Email,d.Password).Scan(&d.ID)
 	if err != nil {
 		return err
 	}
-	log.Println("CREADO")
 	return  nil
 }
 
@@ -66,8 +59,6 @@ func (u user) Update(up *domain.UpdateUser) error {
 	if rowsAffected == 0 {
 		return fmt.Errorf("no existe un usuario con id: %d", up.ID)
 	}
-
-	log.Println("ACTUALIZADO")
 	return  nil
 }
 
@@ -88,7 +79,6 @@ func (u user) UpdateNicknameField(nick *domain.FieldString) error {
 	if rowsAffected == 0 {
 		return fmt.Errorf("no existe un usuario con nickname: %v", nick.Field)
 	}
-	log.Println("ACTUALIZADO NICKNAME")
 	return nil
 }
 
@@ -109,7 +99,6 @@ func (u user) UpdatePictureField(pic *domain.FieldString) error {
 	if rowsAffected == 0 {
 		return fmt.Errorf("no se puedo actualizar la imagen del usuario")
 	}
-	log.Println("ACTUALIZADO PICTURE")
 	return nil
 }
 
@@ -130,6 +119,5 @@ func (u user) UpdateOnlineField(state *domain.State) error {
 	if rowsAffected == 0 {
 		return fmt.Errorf("no se puedo actualizar el campo online del usuario: %v", state.ID)
 	}
-	log.Println("ACTUALIZADO ONLINE")
 	return nil
 }

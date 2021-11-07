@@ -17,8 +17,8 @@ type PersistenceUser interface {
 }
 
 type QueryUser interface {
-	GetAllNotAddedUsers(int, uint) (*domain.Users, error)
-	GetById(uint) (*domain.User, error)
-	EmailFieldExists(string) (bool,*domain.User,error)
-	NicknameFieldExists(string) (bool, *domain.User, error)
+	GetAllNotAddedUsers(int, uint) (domain.Users, error)
+	GetById(uint) (domain.User, error)
+	EmailFieldExists(string) (domain.User,error)
+	NicknameFieldExists(string) (domain.User, error)
 }

@@ -16,7 +16,8 @@ type User struct {
 	Picture     string    `json:"picture,omitempty"`
 	CreatedAt   time.Time `json:"created_at,omitempty"`
 }
-type Users []User
+
+type Users []*User
 
 type CreateUser struct {
 	ID       uint   `json:"id,omitempty"`
