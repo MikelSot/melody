@@ -12,7 +12,6 @@ const (
 						chat_id BIGINT NOT NULL,
 						type_message_id SMALLINT NOT NULL,
 						created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-						deleted_at TIMESTAMP WITH TIME ZONE,
 						CONSTRAINT pk_messages_id PRIMARY KEY (id),
 						CONSTRAINT fk_message_user_id FOREIGN KEY (user_id)
 							REFERENCES users(id) ON UPDATE RESTRICT ON DELETE RESTRICT,

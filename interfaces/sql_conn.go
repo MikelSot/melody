@@ -11,3 +11,7 @@ type Pooler interface{
 type Connectioner interface{
 	Connection()
 }
+
+type Migrater interface {
+	Migrate() error
+}

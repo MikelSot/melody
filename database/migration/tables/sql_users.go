@@ -7,14 +7,13 @@ const (
 					id SERIAL NOT NULL,
 					name VARCHAR(80) DEFAULT '' NOT NULL,
 					last_name VARCHAR(80) DEFAULT '' NOT NULL,
-					nick_name VARCHAR(80) DEFAULT '' NOT NULL,
+					nickname VARCHAR(80) DEFAULT '' NOT NULL,
 					email VARCHAR(150) NOT NULL,
 					password VARCHAR(200) NOT NULL,
 					online BOOLEAN DEFAULT false,
-					description VARCHAR(150) DEFAULT '' NOT NULL,
-					picture VARCHAR(200),
+					description VARCHAR(150) DEFAULT '',
+					picture VARCHAR(200) DEFAULT '',
 					created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-					deleted_at TIMESTAMP WITH TIME ZONE,
 					CONSTRAINT pk_users_id PRIMARY KEY (id),
 					CONSTRAINT un_users_email UNIQUE (email)
 				)`

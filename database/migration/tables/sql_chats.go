@@ -9,7 +9,6 @@ const (
 						name VARCHAR(100) DEFAULT '' NOT NULL,
 						description VARCHAR(150) DEFAULT '',
 						created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-						deleted_at TIMESTAMP WITH TIME ZONE,
 						CONSTRAINT pk_chats_id PRIMARY KEY (id)
 					)`
 )
