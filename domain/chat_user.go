@@ -1,6 +1,6 @@
 package domain
 
 type ChatUser struct {
-	ChatID uint `gorm:"primaryKey"`
-	UserID uint `gorm:"primaryKey"`
+	ChatID uint `json:"chat_id,omitempty"`
+	UserID uint `json:"user_id,omitempty"`
 }

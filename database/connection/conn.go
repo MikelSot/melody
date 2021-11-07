@@ -7,10 +7,12 @@ import (
 	"sync"
 )
 
-var once sync.Once
-type connection struct {
+var (
+	once sync.Once
 	db   *sql.DB
-}
+)
+
+type connection struct {}
 
 func NewConnection() *connection {
 	return &connection{}
@@ -20,12 +22,12 @@ func (c connection) connection() {
 	once.Do(func() {
 		var err error
 		dns := c.getDnsConnection()
-		c.db, err = sql.Open("postgres", dns)
+		db, err = sql.Open("postgres", dns)
 		if err != nil {
 			log.Fatalf("ERROR CONNECCION -> %v", err)
 		}
 
-		if err = c.db.Ping(); err != nil {
+		if err = db.Ping(); err != nil {
 			log.Fatalf("ERROR PING-> %v", err)
 		}
 		log.Println("CONNECTADO!!")
@@ -43,7 +45,6 @@ func (c connection) Connection(){
 
 
 func (c connection) Pool() *sql.DB {
-	log.Println("ctmr")
-	return c.db
+	return db
 }
 

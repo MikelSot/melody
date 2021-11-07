@@ -2,7 +2,6 @@ package interfaces
 
 import (
 	"database/sql"
-	"gorm.io/gorm"
 )
 
 type Pooler interface{
@@ -10,5 +9,5 @@ type Pooler interface{
 }
 
 type Connectioner interface{
-	Connection() *gorm.DB
+	Connection()
 }

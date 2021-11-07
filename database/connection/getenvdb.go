@@ -1,7 +1,6 @@
 package connection
 
 import (
-	"github.com/MikelSot/melody/interfaces"
 	"os"
 )
 
@@ -13,9 +12,7 @@ var (
 	port     string
 )
 
-type getEnvDB struct {
-	env interfaces.GetEnvDataBaser
-}
+type getEnvDB struct {}
 
 func (l *getEnvDB) GetEnvDataBase() {
 	host = os.Getenv("DB_HOST")

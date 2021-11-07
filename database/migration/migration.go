@@ -1,11 +1,34 @@
 package migration
 
 import (
-	"github.com/MikelSot/melody/database/connection"
+	"database/sql"
+	"github.com/MikelSot/melody/database/migration/clients"
+	"github.com/MikelSot/melody/database/migration/tables"
+	"log"
+	"sync"
 )
 
-func Migration() {
-	pl := connection.NewPool()
-	NewCreateTables(pl).CreateTable()
-	NewInsertData(pl).InsertData()
+var once sync.Once
+
+type migration struct {
+	db *sql.DB
+}
+
+func NewMigration(db *sql.DB) *migration {
+	return &migration{  db}
+}
+
+func (m migration) Migration(){
+	once.Do(func(){
+		var err error
+		u := clients.NewUser(tables.NewUser(m.db)); err = u.CreateTable()
+		t := clients.NewTypeMessage(tables.NewTypeMessage(m.db)); err = t.CreateTable()
+		c := clients.NewChat(tables.NewChat(m.db)); err = c.CreateTable()
+		cu := clients.NewChatUser(tables.NewChatUsers(m.db)); err = cu.CreateTable()
+		m := clients.NewMessage(tables.NewMessage(m.db)); err = m.CreateTable()
+		if err != nil {
+			log.Fatalf("ERROR MIGRATE -> %v", err)
+		}
+		log.Println("MIGRADO!!")
+	})
 }
