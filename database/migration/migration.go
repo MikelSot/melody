@@ -22,7 +22,6 @@ func (m migration) Migration(){
 	once.Do(func(){
 		var err error
 		u := clients.NewUser(tables.NewUser(m.db)); err = u.CreateTable()
-		t := clients.NewTypeMessage(tables.NewTypeMessage(m.db)); err = t.CreateTable()
 		c := clients.NewChat(tables.NewChat(m.db)); err = c.CreateTable()
 		cu := clients.NewChatUser(tables.NewChatUsers(m.db)); err = cu.CreateTable()
 		m := clients.NewMessage(tables.NewMessage(m.db)); err = m.CreateTable()
