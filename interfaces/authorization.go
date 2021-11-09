@@ -3,7 +3,7 @@ package interfaces
 import "github.com/MikelSot/melody/infrastructure/authorization"
 
 type LoadJWTFiler interface {
-	LoadJWTFile(pwiv, pub string) error
+	LoadJWTFile(priv, pub string) error
 }
 
 type JWT interface {
