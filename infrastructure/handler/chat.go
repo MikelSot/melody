@@ -4,29 +4,26 @@ import (
 	"encoding/json"
 	"github.com/MikelSot/melody/domain"
 	"github.com/MikelSot/melody/interfaces"
-	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
-type login struct {
-	exists interfaces.QueryUser
-	jwt     interfaces.JWT
+type persistenceChat struct {
+	pers     interfaces.PersistenceChater
 }
 
-func NewLogin(e interfaces.QueryUser, j interfaces.JWT) *login {
-	return &login{e, j}
+func NewPersistenceChat(pers interfaces.PersistenceChater) *persistenceChat {
+	return &persistenceChat{pers}
 }
 
-func (l *login) Login(w http.ResponseWriter, r *http.Request) {
+func (p persistenceChat) Create(w http.ResponseWriter, r *http.Request)  {
 	if r.Method != http.MethodPost {
 		res := NewResponse(Error, "Metodo no permitido", nil)
 		responseJson(w, http.StatusBadRequest, res)
 		return
 	}
 
-	data := domain.Login{}
+	data := domain.Chat{}
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		res := NewResponse(Error, "Datos no validos", nil)
@@ -34,41 +31,45 @@ func (l *login) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data.Email = strings.TrimSpace(data.Email)
-	if !isEmail(data.Email) {
-		res := NewResponse(Error, "Email invalido", nil)
-		responseJson(w, http.StatusBadRequest, res)
-		return
-	}
-
-	user, err := l.exists.EmailFieldExists(data.Email)
+	p.pers.Create(&data)
 	if err != nil {
-		res := NewResponse(Error, "Email incorrecto", nil)
+		res := NewResponse(Error, "Ocurrió un error", nil)
+		responseJson(w, http.StatusInternalServerError, res)
+		return
+	}
+
+	res := NewResponse(Message, "ok", data)
+	responseJson(w, http.StatusCreated, res)
+}
+
+
+func (p persistenceChat) Update(w http.ResponseWriter, r *http.Request){
+	if r.Method != http.MethodPut {
+		res := NewResponse(Error, "Metodo no permitido", nil)
 		responseJson(w, http.StatusBadRequest, res)
 		return
 	}
 
-	pass := []byte(data.Password)
-	passDB := []byte(user.Password)
-	err = bcrypt.CompareHashAndPassword(passDB, pass)
+	data := domain.Chat{}
+	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		res := NewResponse(Error, "Datos no validos", nil)
 		responseJson(w, http.StatusBadRequest, res)
 		return
 	}
 
-	token, err := l.jwt.GenerateToken(user.ID)
+	p.pers.Update(&data)
 	if err != nil {
 		res := NewResponse(Error, "Ocurrió un error", nil)
 		responseJson(w, http.StatusInternalServerError, res)
 		return
 	}
-	dataToken := map[string]string{"token":token}
-	res := NewResponse(Message, "ok", dataToken)
+
+	res := NewResponse(Message, "ok", data)
 	responseJson(w, http.StatusOK, res)
 }
 
-func (l *login) GetUserById(w http.ResponseWriter, r *http.Request) {
+func (p persistenceChat) GetById(w http.ResponseWriter, r *http.Request){
 	if r.Method != http.MethodGet {
 		res := NewResponse(Error, "Metodo no permitido", nil)
 		responseJson(w, http.StatusBadRequest, res)
@@ -82,9 +83,9 @@ func (l *login) GetUserById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user ,err := l.exists.GetById(uint(id))
-	if user.ID == 0 {
-		res := NewResponse(Error, "Este usuario no existe", nil)
+	chat, err := p.pers.GetById(uint(id))
+	if chat.ID == 0 {
+		res := NewResponse(Error, "Este chat no existe", nil)
 		responseJson(w, http.StatusInternalServerError, res)
 		return
 	}
@@ -94,7 +95,7 @@ func (l *login) GetUserById(w http.ResponseWriter, r *http.Request) {
 		responseJson(w, http.StatusInternalServerError, res)
 		return
 	}
-	user.Password = ""
-	res := NewResponse(Message, "ok", user)
+
+	res := NewResponse(Message, "ok", chat)
 	responseJson(w, http.StatusOK, res)
 }

@@ -15,8 +15,8 @@ type persistenceUser struct {
 	pers interfaces.PersistenceUser
 }
 
-func NewPersistenceUser(user interfaces.PersistenceUser) *persistenceUser {
-	return &persistenceUser{user}
+func NewPersistenceUser(pers interfaces.PersistenceUser) *persistenceUser {
+	return &persistenceUser{pers}
 }
 
 func (p persistenceUser) Create(w http.ResponseWriter, r *http.Request)  {
