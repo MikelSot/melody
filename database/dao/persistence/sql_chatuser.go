@@ -23,7 +23,7 @@ func (c chatUser) Create(cu *domain.ChatUser) error {
 		return err
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(cu.ChatID,cu.UserID)
+	_, err = stmt.Exec(&cu.ChatID,&cu.UserID)
 	if err != nil {
 		return err
 	}

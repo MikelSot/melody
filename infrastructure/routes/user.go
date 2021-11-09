@@ -41,17 +41,17 @@ func (u user) persistenceUser(user interfaces.PersistenceUser){
 	).Methods(http.MethodPut)
 
 	u.mux.HandleFunc(
-		api+"/user-update-nickname/{id}",
+		api+"/user-update-nickname/",
 		u.midd.Authentication(pers.UpdateNicknameField),
 	).Methods(http.MethodPut)
 
 	u.mux.HandleFunc(
-		api+"/user-update-picture/{id}",
+		api+"/user-update-picture/",
 		u.midd.Authentication(pers.UpdatePictureField),
 	).Methods(http.MethodPut)
 
 	u.mux.HandleFunc(
-		api+"/user-update-online/{id}",
+		api+"/user-update-online/",
 		u.midd.Authentication(pers.UpdateOnlineField),
 	).Methods(http.MethodPut)
 }

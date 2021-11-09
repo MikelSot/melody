@@ -90,14 +90,8 @@ func (p persistenceUser) UpdateNicknameField(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	id, err := strconv.Atoi(r.URL.Query().Get("id"))
-	if err != nil || id < 0 {
-		res := NewResponse(Error, "id incorrecto", nil)
-		responseJson(w, http.StatusBadRequest, res)
-		return
-	}
-	data := domain.FieldString{}; data.ID= uint(id)
-	err = json.NewDecoder(r.Body).Decode(&data)
+	data := domain.FieldString{}
+	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		res := NewResponse(Error, "Datos no validos", nil)
 		responseJson(w, http.StatusBadRequest, res)
@@ -121,14 +115,8 @@ func (p persistenceUser) UpdatePictureField(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	id, err := strconv.Atoi(r.URL.Query().Get("id"))
-	if err != nil || id < 0 {
-		res := NewResponse(Error, "id incorrecto", nil)
-		responseJson(w, http.StatusBadRequest, res)
-		return
-	}
-	data := domain.FieldString{}; data.ID= uint(id)
-	err = json.NewDecoder(r.Body).Decode(&data)
+	data := domain.FieldString{}
+	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		res := NewResponse(Error, "Datos no validos", nil)
 		responseJson(w, http.StatusBadRequest, res)
@@ -152,14 +140,8 @@ func (p persistenceUser) UpdateOnlineField(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	id, err := strconv.Atoi(r.URL.Query().Get("id"))
-	if err != nil || id < 0 {
-		res := NewResponse(Error, "id incorrecto", nil)
-		responseJson(w, http.StatusBadRequest, res)
-		return
-	}
-	data := domain.State{}; data.ID= uint(id)
-	err = json.NewDecoder(r.Body).Decode(&data)
+	data := domain.State{}
+	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		res := NewResponse(Error, "Datos no validos", nil)
 		responseJson(w, http.StatusBadRequest, res)

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/MikelSot/melody/domain"
 	"github.com/MikelSot/melody/interfaces"
+	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 )
@@ -56,8 +57,9 @@ func (c chatUser) Match(w http.ResponseWriter, r *http.Request){
 		return
 	}
 
-	myId, err := strconv.Atoi(r.URL.Query().Get("my-id"))
-	yourId, err := strconv.Atoi(r.URL.Query().Get("your-id"))
+	values := mux.Vars(r)
+	myId, err := strconv.Atoi(values["my-id"])
+	yourId, err := strconv.Atoi(values["your-id"])
 	if err != nil || myId < 0 || yourId < 0{
 		res := NewResponse(Error, "Datos no validos", nil)
 		responseJson(w, http.StatusBadRequest, res)
@@ -89,61 +91,9 @@ func (c chatUser) AllPeopleAddedToMyChat(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	myId, err := strconv.Atoi(r.URL.Query().Get("my-id"))
-	max, err := strconv.Atoi(r.URL.Query().Get("max"))
-	if err != nil || myId < 0 || max < 0{
-		res := NewResponse(Error, "Datos no validos", nil)
-		responseJson(w, http.StatusBadRequest, res)
-		return
-	}
-
-	chatusers, err := c.query.AllPeopleAddedToMyChat(uint(max), uint(myId))
-	if err != nil {
-		res := NewResponse(Error, "Ocurrió un error", nil)
-		responseJson(w, http.StatusInternalServerError, res)
-		return
-	}
-
-	res := NewResponse(Message, "ok", chatusers)
-	responseJson(w, http.StatusAccepted, res)
-}
-
-func (c chatUser) AllGroupsAddedToMyChat(w http.ResponseWriter, r *http.Request){
-	if r.Method != http.MethodGet {
-		res := NewResponse(Error, "Metodo no permitido", nil)
-		responseJson(w, http.StatusBadRequest, res)
-		return
-	}
-
-	myId, err := strconv.Atoi(r.URL.Query().Get("my-id"))
-	max, err := strconv.Atoi(r.URL.Query().Get("max"))
-	if err != nil || myId < 0 || max < 0{
-		res := NewResponse(Error, "Datos no validos", nil)
-		responseJson(w, http.StatusBadRequest, res)
-		return
-	}
-
-
-	chatusers, err := c.query.AllPeopleAddedToMyChat(uint(max), uint(myId))
-	if err != nil {
-		res := NewResponse(Error, "Ocurrió un error", nil)
-		responseJson(w, http.StatusInternalServerError, res)
-		return
-	}
-
-	res := NewResponse(Message, "ok", chatusers)
-	responseJson(w, http.StatusAccepted, res)
-}
-
-func (c chatUser) AllAddedToMyChat(w http.ResponseWriter, r *http.Request){
-	if r.Method != http.MethodGet {
-		res := NewResponse(Error, "Metodo no permitido", nil)
-		responseJson(w, http.StatusBadRequest, res)
-		return
-	}
-
-	myId, err := strconv.Atoi(r.URL.Query().Get("my-id"))
-	max, err := strconv.Atoi(r.URL.Query().Get("max"))
+	values := mux.Vars(r)
+	myId, err := strconv.Atoi(values["my-id"])
+	max, err := strconv.Atoi(values["max"])
 	if err != nil || myId < 0 || max < 0{
 		res := NewResponse(Error, "Datos no validos", nil)
 		responseJson(w, http.StatusBadRequest, res)

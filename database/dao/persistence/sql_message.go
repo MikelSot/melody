@@ -26,7 +26,7 @@ func (m message) Create(d *domain.Message) error {
 		return err
 	}
 	defer stmt.Close()
-	err = stmt.QueryRow(d.Message,d.UserID,d.ChatID).Scan(&d.ID)
+	err = stmt.QueryRow(&d.Message,&d.UserID,d.ChatID).Scan(&d.ID)
 	if err != nil {
 		return err
 	}

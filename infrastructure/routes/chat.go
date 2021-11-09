@@ -25,11 +25,6 @@ func (c chat) persistenceChat(chat interfaces.PersistenceChater) {
 	).Methods(http.MethodPost)
 
 	c.mux.HandleFunc(
-		api+"/chat-update",
-		c.midd.Authentication(pers.Update),
-	).Methods(http.MethodPut)
-
-	c.mux.HandleFunc(
 		api+"/chat-get-by-id/{id}",
 		c.midd.Authentication(pers.GetById),
 	).Methods(http.MethodGet)

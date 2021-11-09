@@ -12,7 +12,6 @@ type PersistenceUser interface {
 
 type PersistenceChater interface {
 	Create(*domain.Chat) error
-	Update(*domain.Chat) error
 	GetById(uint) (domain.Chat, error)
 }
 

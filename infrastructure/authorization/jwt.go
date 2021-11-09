@@ -2,6 +2,7 @@ package authorization
 
 import (
 	"errors"
+	"github.com/MikelSot/melody/domain"
 	"github.com/dgrijalva/jwt-go"
 	"time"
 )
@@ -13,7 +14,7 @@ func NewMyJWT() *myJWT {
 }
 
 func (m myJWT) GenerateToken(id uint) (string, error){
-	claim := Claim{
+	claim := domain.Claim{
 		ID:             id,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour*2).Unix(),
@@ -28,17 +29,17 @@ func (m myJWT) GenerateToken(id uint) (string, error){
 	return signedToken, nil
 }
 
-func (m myJWT) ValidateToken(t string) (Claim, error){
-	token, err := jwt.ParseWithClaims(t, &Claim{},m.getPublicKey)
+func (m myJWT) ValidateToken(t string) (domain.Claim, error){
+	token, err := jwt.ParseWithClaims(t, &domain.Claim{},m.getPublicKey)
 	if err != nil {
-		return Claim{},err
+		return domain.Claim{},err
 	}
 	if !token.Valid{
-		return Claim{}, errors.New("token no valido")
+		return domain.Claim{}, errors.New("token no valido")
 	}
-	claim, ok := token.Claims.(*Claim)
+	claim, ok := token.Claims.(*domain.Claim)
 	if !ok{
-		return Claim{}, errors.New("no se puedo obtener los claim")
+		return domain.Claim{}, errors.New("no se puedo obtener los claim")
 	}
 	return *claim, nil
 }

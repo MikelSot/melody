@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"github.com/MikelSot/melody/domain"
 	"github.com/MikelSot/melody/interfaces"
+	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -24,8 +26,9 @@ func (q queryUser) GetAllNotAddedUsers(w http.ResponseWriter, r *http.Request){
 		return
 	}
 
-	id, err := strconv.Atoi(r.URL.Query().Get("id"))
-	max, err := strconv.Atoi(r.URL.Query().Get("max"))
+	values := mux.Vars(r)
+	id, err := strconv.Atoi(values["id"])
+	max, err := strconv.Atoi(values["max"])
 	if err != nil || id < 0 || max < 0{
 		res := NewResponse(Error, "Datos no validos", nil)
 		responseJson(w, http.StatusBadRequest, res)
@@ -102,10 +105,11 @@ func (q queryUser) NicknameFieldExists(w http.ResponseWriter, r *http.Request){
 	if err != nil {
 		res := NewResponse(Error, "Ocurrió un error", nil)
 		responseJson(w, http.StatusInternalServerError, res)
+		log.Println(err)
 		return
 	}
 
-	if user.ID != 0{
+	if user.Nickname != ""{
 		res := NewResponse(Error, "Ya existe un usuario con ese nickname", nil)
 		responseJson(w, http.StatusBadRequest, res)
 		return

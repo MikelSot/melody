@@ -35,14 +35,4 @@ func (c *chatUser) chatUser(query interfaces.QueryChatUser, pers interfaces.Pers
 		api+"/chat-user-all-people/{my-id}/{max}",
 		c.midd.Authentication(cu.AllPeopleAddedToMyChat),
 	).Methods(http.MethodGet)
-
-	c.mux.HandleFunc(
-		api+"/chat-user-all-group/{my-id}/{max}",
-		c.midd.Authentication(cu.AllGroupsAddedToMyChat),
-	).Methods(http.MethodGet)
-
-	c.mux.HandleFunc(
-		api+"/chat-user-all/{my-id}/{max}",
-		c.midd.Authentication(cu.AllAddedToMyChat),
-	).Methods(http.MethodGet)
 }

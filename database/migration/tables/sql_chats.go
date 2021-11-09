@@ -5,9 +5,6 @@ import "database/sql"
 const (
 	table_chat = `CREATE TABLE IF NOT EXISTS chats(
 						id BIGSERIAL NOT NULL,
-						"group" BOOLEAN DEFAULT false,
-						name VARCHAR(100) DEFAULT '' NOT NULL,
-						description VARCHAR(150) DEFAULT '',
 						created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
 						CONSTRAINT pk_chats_id PRIMARY KEY (id)
 					)`

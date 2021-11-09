@@ -8,8 +8,8 @@ import (
 
 const (
 	create_user =`INSERT INTO users(name, last_name, email, password ) VALUES($1, $2, $3, $4) RETURNING id`
-	update_user =`UPDATE users SET name = $1, last_name = $2, email = $3, nick_name = $4, description = $5 WHERE id=$6` // modifica aca es nikname NO nike_name (en la tabla pincipal igual)
-	update_nikname_field = `UPDATE users SET nick_name=$1 WHERE id=$2` // a qui igual lo cambias despues
+	update_user =`UPDATE users SET name = $1, last_name = $2, email = $3, nickname = $4, description = $5 WHERE id=$6` // modifica aca es nikname NO nike_name (en la tabla pincipal igual)
+	update_nikname_field = `UPDATE users SET nickname=$1 WHERE id=$2` // a qui igual lo cambias despues
 	update_picture_field = `UPDATE users SET picture=$1 WHERE id=$2`
 	update_online_field = `UPDATE users SET online=$1 WHERE id=$2`
 )
@@ -42,12 +42,12 @@ func (u user) Update(up *domain.UpdateUser) error {
 	}
 	defer stmt.Close()
 	res, err := stmt.Exec(
-		up.Name,
-		up.LastName,
-		up.Email,
-		up.Nickname,
-		up.Description,
-		up.ID,
+		&up.Name,
+		&up.LastName,
+		&up.Email,
+		&up.Nickname,
+		&up.Description,
+		&up.ID,
 	)
 	if err != nil {
 		return err
@@ -68,7 +68,7 @@ func (u user) UpdateNicknameField(nick *domain.FieldString) error {
 		return err
 	}
 	defer stmt.Close()
-	res, err := stmt.Exec(nick.Field,nick.ID)
+	res, err := stmt.Exec(&nick.Field,&nick.ID)
 	if err != nil {
 		return err
 	}
@@ -88,7 +88,7 @@ func (u user) UpdatePictureField(pic *domain.FieldString) error {
 		return err
 	}
 	defer stmt.Close()
-	res, err := stmt.Exec(pic.Field,pic.ID)
+	res, err := stmt.Exec(&pic.Field,&pic.ID)
 	if err != nil {
 		return err
 	}
@@ -108,7 +108,7 @@ func (u user) UpdateOnlineField(state *domain.State) error {
 		return err
 	}
 	defer stmt.Close()
-	res, err := stmt.Exec(state.Field,state.ID)
+	res, err := stmt.Exec(&state.Field,&state.ID)
 	if err != nil {
 		return err
 	}

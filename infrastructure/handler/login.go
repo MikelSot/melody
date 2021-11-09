@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/MikelSot/melody/domain"
 	"github.com/MikelSot/melody/interfaces"
+	"github.com/gorilla/mux"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"strconv"
@@ -74,8 +75,8 @@ func (l *login) GetUserById(w http.ResponseWriter, r *http.Request) {
 		responseJson(w, http.StatusBadRequest, res)
 		return
 	}
-
-	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+	value := mux.Vars(r)
+	id, err := strconv.Atoi(value["id"])
 	if err != nil || id < 0 {
 		res := NewResponse(Error, "id incorrecto", nil)
 		responseJson(w, http.StatusBadRequest, res)

@@ -12,16 +12,11 @@ type QueryUser interface {
 
 type QueryChatUser interface {
 	Match(myId uint, yourId uint) (domain.ChatUser,error)
-	AllPeopleAddedToMyChat(max uint,myId uint) (domain.ChatUsers, error)
-	AllGroupsAddedToMyChat(max uint,myId uint) (domain.ChatUsers, error)
-	AllAddedToMyChat(max uint, myId uint) (domain.ChatUsers, error)
+	AllPeopleAddedToMyChat(max uint,myId uint) (domain.GetChatFromPeoples, error)
 }
 
 type QueryMessage interface {
 	GetMessageFromChat(max, myId uint) (domain.Messages, error)
 	GetAllStarred() (domain.Messages, error)
-	GetLatestChatMessageFromPeopleAdded(chatID uint) (domain.LastMessageFromPeoples, error)
-	GetLatestChatMessageFromGroupAdded(chatID uint) (domain.LastMessageFromGroups, error)
-	GetLatestChatMessageFromAllAdded(chatID uint) (domain.LastMessageFromAlls, error)
 }
 

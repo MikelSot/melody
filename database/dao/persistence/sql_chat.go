@@ -2,14 +2,12 @@ package persistence
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/MikelSot/melody/domain"
 )
 
 const (
-	create_chat=`INSERT INTO chats("group", name, description) VALUES ($1, $2, $3) RETURNING id`
-	update_chat=`UPDATE chats SET name=$1, description=$2 WHERE id= $3`
-	getByIdChat=`SELECT id, "group", name, description FROM chats WHERE id = $1`
+	create_chat=`INSERT INTO chats VALUES(DEFAULT) RETURNING id`
+	getByIdChat=`SELECT id FROM chats WHERE id = $1`
 )
 
 type chat struct {
@@ -26,28 +24,9 @@ func (c chat) Create(d *domain.Chat) error {
 		return err
 	}
 	defer stmt.Close()
-	err = stmt.QueryRow(d.Group,d.Name,d.Description).Scan(&d.ID)
+	err = stmt.QueryRow().Scan(&d.ID)
 	if err != nil {
 		return err
-	}
-	return  nil}
-
-func (c chat) Update(d *domain.Chat) error {
-	stmt, err := c.db.Prepare(update_chat)
-	if err != nil {
-		return err
-	}
-	defer stmt.Close()
-	res, err := stmt.Exec(d.Name,d.Description,	d.ID)
-	if err != nil {
-		return err
-	}
-	rowsAffected, err := res.RowsAffected()
-	if err != nil {
-		return err
-	}
-	if rowsAffected == 0 {
-		return fmt.Errorf("no existe un chat con id: %d", d.ID)
 	}
 	return  nil
 }
@@ -59,12 +38,7 @@ func (c chat) GetById(id uint) (domain.Chat, error) {
 	}
 	defer stmt.Close()
 	ch := domain.Chat{}
-	err = stmt.QueryRow(id).Scan(
-		ch.ID,
-		ch.Group,
-		ch.Name,
-		ch.Description,
-	)
+	err = stmt.QueryRow(id).Scan(ch.ID)
 	if err != nil {
 		return domain.Chat{}, err
 	}

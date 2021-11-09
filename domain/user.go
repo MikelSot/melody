@@ -43,10 +43,10 @@ type Login struct {
 
 type FieldString struct {
 	ID    uint   `json:"id,omitempty"`
-	Field string `json:"Field,omitempty"`
+	Field string `json:"field,omitempty"`
 }
 
 type State struct {
 	ID    uint `json:"id,omitempty"`
-	Field bool `json:"state,omitempty"`
+	Field bool `json:"field,omitempty"`
 }

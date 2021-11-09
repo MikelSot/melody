@@ -6,16 +6,16 @@ import (
 )
 
 const (
-	getAllNotAddedUsers = `select id, name,last_name, nick_name, online, picture from users
+	getAllNotAddedUsers = `select id, name,last_name, nickname, online, picture from users
  						   where id not in (select user_id from chat_users
 											where chat_id in(select chat_id from chat_users
                                          					 inner join chats c on c.id = chat_users.chat_id
                                          					 where user_id =$1 and c."group" = false)
 											and user_id <> $1) and id <> $1
 						   limit $2`
-	getByIdUser    = `Select id, name, last_name, nick_name, email, description, picture from users where id = $1`
-	emailExists    = `Select id, name, last_name, nick_name, email, description, picture from users where email = $1`
-	nicknameExists = `Select id, name, last_name, nick_name, email, description, picture from users where nick_name = $1`
+	getByIdUser    = `Select id, name, last_name, nickname, email,password, description, picture from users where id = $1`
+	emailExists    = `Select id, name, last_name, nickname, email, password, description, picture from users where email = $1`
+	nicknameExists = `Select id, name, last_name, nickname, email, password, description, picture from users where nickname = $1`
 )
 
 type user struct {
@@ -101,14 +101,16 @@ func (u user) NicknameFieldExists(nickname string) (domain.User, error) {
 }
 
 func (u user) scanData(data interface{},stmt *sql.Stmt) (domain.User, error) {
-	us := domain.User{}
+	us := &domain.User{}
 	err := stmt.QueryRow(data).Scan(
-		us.ID,
-		us.Name,
-		us.LastName,
-		us.Email,
-		us.Description,
-		us.Picture,
+		&us.ID,
+		&us.Name,
+		&us.LastName,
+		&us.Nickname,
+		&us.Email,
+		&us.Password,
+		&us.Description,
+		&us.Picture,
 	)
-	return us, err
+	return *us, err
 }

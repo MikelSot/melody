@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/MikelSot/melody/domain"
 	"github.com/MikelSot/melody/interfaces"
+	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 )
@@ -43,32 +44,6 @@ func (p persistenceChat) Create(w http.ResponseWriter, r *http.Request)  {
 }
 
 
-func (p persistenceChat) Update(w http.ResponseWriter, r *http.Request){
-	if r.Method != http.MethodPut {
-		res := NewResponse(Error, "Metodo no permitido", nil)
-		responseJson(w, http.StatusBadRequest, res)
-		return
-	}
-
-	data := domain.Chat{}
-	err := json.NewDecoder(r.Body).Decode(&data)
-	if err != nil {
-		res := NewResponse(Error, "Datos no validos", nil)
-		responseJson(w, http.StatusBadRequest, res)
-		return
-	}
-
-	p.pers.Update(&data)
-	if err != nil {
-		res := NewResponse(Error, "Ocurrió un error", nil)
-		responseJson(w, http.StatusInternalServerError, res)
-		return
-	}
-
-	res := NewResponse(Message, "ok", data)
-	responseJson(w, http.StatusOK, res)
-}
-
 func (p persistenceChat) GetById(w http.ResponseWriter, r *http.Request){
 	if r.Method != http.MethodGet {
 		res := NewResponse(Error, "Metodo no permitido", nil)
@@ -76,7 +51,8 @@ func (p persistenceChat) GetById(w http.ResponseWriter, r *http.Request){
 		return
 	}
 
-	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+	value := mux.Vars(r)
+	id, err := strconv.Atoi(value["id"])
 	if err != nil || id < 0 {
 		res := NewResponse(Error, "id incorrecto", nil)
 		responseJson(w, http.StatusBadRequest, res)
