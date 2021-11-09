@@ -3,6 +3,7 @@ package routes
 import (
 	"database/sql"
 	"github.com/MikelSot/melody/database/dao/persistence"
+	"github.com/MikelSot/melody/database/dao/query"
 	"github.com/MikelSot/melody/infrastructure/middlewares"
 	"github.com/MikelSot/melody/interfaces"
 	"github.com/gorilla/mux"
@@ -20,7 +21,24 @@ func NewRouter(mux *mux.Router, db *sql.DB, jwt interfaces.JWT) *router {
 
 func (r router) User() {
 	midd := middlewares.NewMiddleware(r.jwt)
-	userPers := newUserRouter(r.mux, midd)
+	userque := query.NewUser(r.db)
 	userdb := persistence.NewUser(r.db)
-	userPers.persistenceUser(userdb)
+	userRouter := newUserRouter(r.mux, midd)
+
+	userRouter.loginAndGetById(userque, r.jwt)
+	userRouter.persistenceUser(userdb)
+	userRouter.queryUser(userque)
 }
+
+func (r router) Chat()  {
+
+}
+
+func (r router) ChatUser() {
+
+}
+
+func (r router) Message()  {
+
+}
+

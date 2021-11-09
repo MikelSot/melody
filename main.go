@@ -5,11 +5,11 @@ import (
 	"github.com/MikelSot/melody/infrastructure/authorization"
 	"github.com/MikelSot/melody/infrastructure/routes"
 	"github.com/gorilla/mux"
-	"github.com/labstack/gommon/log"
+	"github.com/rs/cors"
+	"log"
 	"net/http"
+	"os"
 )
-
-//type tmGetById interfaces.GetAller
 
 func main() {
 	pool := database.Database()
@@ -21,7 +21,13 @@ func main() {
 	router := routes.NewRouter(r, pool, authorization.NewMyJWT())
 	router.User()
 
-	log.Fatal(http.ListenAndServe(":3000", r))
+	port := os.Getenv("PORT_SERVER")
+	handler := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{http.MethodGet, http.MethodPost, http.MethodDelete, http.MethodPut},
+		AllowCredentials: true,
+	}).Handler(r)
+	log.Fatal(http.ListenAndServe(":"+port, handler))
 }
 
 

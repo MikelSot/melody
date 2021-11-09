@@ -12,7 +12,7 @@ import (
 
 type login struct {
 	exists interfaces.QueryUser
-	jwt     interfaces.JWT
+	jwt    interfaces.JWT
 }
 
 func NewLogin(e interfaces.QueryUser, j interfaces.JWT) *login {
@@ -63,7 +63,7 @@ func (l *login) Login(w http.ResponseWriter, r *http.Request) {
 		responseJson(w, http.StatusInternalServerError, res)
 		return
 	}
-	dataToken := map[string]string{"token":token}
+	dataToken := map[string]string{"token": token}
 	res := NewResponse(Message, "ok", dataToken)
 	responseJson(w, http.StatusOK, res)
 }
@@ -82,7 +82,7 @@ func (l *login) GetUserById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user ,err := l.exists.GetById(uint(id))
+	user, err := l.exists.GetById(uint(id))
 	if user.ID == 0 {
 		res := NewResponse(Error, "Este usuario no existe", nil)
 		responseJson(w, http.StatusInternalServerError, res)

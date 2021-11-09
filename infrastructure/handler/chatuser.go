@@ -150,7 +150,6 @@ func (c chatUser) AllAddedToMyChat(w http.ResponseWriter, r *http.Request){
 		return
 	}
 
-
 	chatusers, err := c.query.AllPeopleAddedToMyChat(uint(max), uint(myId))
 	if err != nil {
 		res := NewResponse(Error, "Ocurrió un error", nil)

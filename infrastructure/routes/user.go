@@ -27,32 +27,50 @@ func (u *user) loginAndGetById(query interfaces.QueryUser, jwt interfaces.JWT){
 }
 
 
-func (u *user) persistenceUser(user interfaces.PersistenceUser){
+func (u user) persistenceUser(user interfaces.PersistenceUser){
 	pers := handler.NewPersistenceUser(user)
 
 	u.mux.HandleFunc(
-		api+"/register",
+		api+"/user-register",
 		pers.Create,
 	).Methods(http.MethodPost)
 
 	u.mux.HandleFunc(
-		api+"/update/{id}",
+		api+"/user-update/{id}",
 		u.midd.Authentication(pers.Update),
 	).Methods(http.MethodPut)
 
 	u.mux.HandleFunc(
-		api+"/update-nickname/{id}",
+		api+"/user-update-nickname/{id}",
 		u.midd.Authentication(pers.UpdateNicknameField),
 	).Methods(http.MethodPut)
 
 	u.mux.HandleFunc(
-		api+"/update-picture/{id}",
+		api+"/user-update-picture/{id}",
 		u.midd.Authentication(pers.UpdatePictureField),
 	).Methods(http.MethodPut)
 
 	u.mux.HandleFunc(
-		api+"/update-online/{id}",
+		api+"/user-update-online/{id}",
 		u.midd.Authentication(pers.UpdateOnlineField),
 	).Methods(http.MethodPut)
 }
 
+func (u user) queryUser(query interfaces.QueryUser)  {
+	 que := handler.NewQueryUser(query)
+
+	u.mux.HandleFunc(
+		api+"/user-update-online/{id}/{max}",
+		u.midd.Authentication(que.GetAllNotAddedUsers),
+	).Methods(http.MethodGet)
+
+	u.mux.HandleFunc(
+		api+"/user-email-exists",
+		u.midd.Authentication(que.EmailFieldExists),
+	).Methods(http.MethodPost)
+
+	u.mux.HandleFunc(
+		api+"/user-nickname-exists",
+		u.midd.Authentication(que.NicknameFieldExists),
+	).Methods(http.MethodPost)
+}
