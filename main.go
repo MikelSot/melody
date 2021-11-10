@@ -20,6 +20,8 @@ func main() {
 	r := mux.NewRouter().StrictSlash(true)
 	router := routes.NewRouter(r, pool, authorization.NewMyJWT())
 	router.User()
+	router.Chat()
+	router.ChatUser()
 
 	port := os.Getenv("PORT_SERVER")
 	handler := cors.New(cors.Options{
